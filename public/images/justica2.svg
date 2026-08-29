@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#24404f"/>
+      <stop offset="1" stop-color="#14222e"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- Pilhas de livros/leis -->
+  <g opacity="0.2" fill="#c9a75c">
+    <rect x="120" y="380" width="220" height="26" rx="3"/>
+    <rect x="135" y="350" width="200" height="26" rx="3"/>
+    <rect x="150" y="320" width="180" height="26" rx="3"/>
+    <rect x="500" y="400" width="180" height="26" rx="3"/>
+    <rect x="515" y="370" width="160" height="26" rx="3"/>
+  </g>
+
+  <!-- Balança -->
+  <g transform="translate(400,280)" opacity="0.3" stroke="#e9e2d0" stroke-width="5" fill="none" stroke-linecap="round">
+    <line x1="0" y1="20" x2="0" y2="60"/>
+    <line x1="-150" y1="10" x2="150" y2="10"/>
+    <path d="M-150,10 a75,75 0 0,1 75,28" />
+    <path d="M150,10 a-75,75 0 0,0 -75,28" />
+    <path d="M-142,10 l-42,0 a13,13 0 0,0 0,46 v42" />
+    <path d="M142,10 l42,0 a13,13 0 0,1 0,46 v42" />
+    <circle cx="0" cy="20" r="7" fill="#e9e2d0"/>
+    <line x1="-50" y1="135" x2="-100" y2="135"/>
+    <line x1="-75" y1="135" x2="-75" y2="158"/>
+    <path d="M-92,158 a17,17 0 0,0 34,0"/>
+  </g>
+</svg>

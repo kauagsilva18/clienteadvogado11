@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="claro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= config.site.logo %> | <%= config.site.titulo %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="#" class="brand"><%= config.site.logo %></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#inicio">Início</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#horarios">Horários</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <div class="navbar-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+          <span class="icon-sun">☀</span>
+          <span class="icon-moon">☾</span>
+        </button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
+      </div>
+    </div>
+  </header>
