@@ -35,3 +35,4 @@ As imagens de fundo são SVG (vetoriais) em `public/images/justica.svg` e `publi
 ## Tema claro/escuro
 
 O botão ☀/☾ no topo alterna o tema. A preferência é salva no navegador.
+dadsa
