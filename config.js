@@ -29,7 +29,7 @@ module.exports = {
   sobre: {
     titulo: "Sobre Mim",
     biografia:
-      "Cleber Moacir Gomes da Silva Advocacia, com registro na OAB/RS 134814, é especializado em oferecer soluções jurídicas personalizadas para nossos clientes. Atendemos com excelência em áreas como Direito de Família, Sucessões, Direito  e Direito Civil, sempre priorizando o compromisso ético e a busca por resultados eficazes. Aqui, você encontra não apenas um advogado, mas um parceiro dedicado à sua causa."
+      "Cleber Moacir Gomes da Silva Advocacia, com registro na OAB/RS 134814, é especializado em oferecer soluções jurídicas personalizadas para nossos clientes. Atendemos com excelência em áreas como Direito de Família, Sucessões e Direito Civil, sempre priorizando o compromisso ético e a busca por resultados eficazes. Aqui, você encontra não apenas um advogado, mas um parceiro dedicado à sua causa."
   },
 
   // Seção "Serviços oferecidos"
@@ -37,24 +37,44 @@ module.exports = {
     titulo: "Serviços",
     lista: [
       {
-        icone: "icon-gavel.svg",
-        titulo: "Direito Civil",
-        descricao: "Conhecido como o 'direito do cidadão', ele estabelece as normas fundamentais para a convivência em sociedade, garantindo ordem, segurança e justiça nas interações privadas. ",
+        icone: "icon-pensao.svg",
+        titulo: "Pensão Alimentícia",
+        descricao: "Fixação, revisão e execução de pensão alimentícia, garantindo o sustento adequado de filhos e demais dependentes, com orientação sobre valores, prazos e cobrança judicial em caso de inadimplência.",
       },
       {
-        icone: "icon-briefcase.svg",
-        titulo: "Direito",
-        descricao: "Direito é o conjunto de normas jurídicas que regulam a vida em sociedade, estabelecendo direitos, deveres e sanções para garantir a ordem, a justiça e a segurança jurídica.",
+        icone: "icon-guarda.svg",
+        titulo: "Guarda dos Filhos",
+        descricao: "Organização das responsabilidades entre os pais de acordo com as circunstâncias da família e sempre priorizando o melhor interesse da criança ou adolescente.",
       },
       {
-        icone: "icon-family.svg",
-        titulo: "Direito de Família",
-        descricao: "Direito de Família é o ramo que regula as relações familiares — tanto os vínculos pessoais quanto os efeitos patrimoniais — entre pessoas ligadas por parentesco, afinidade, casamento, união estável, adoção ou afeto.",
+        icone: "icon-visitas.svg",
+        titulo: "Convivência e Visitas",
+        descricao: "Regularização judicial da convivência entre pais e filhos quando não há acordo, definindo finais de semana, feriados, férias escolares e datas comemorativas.",
       },
       {
-        icone: "icon-scale.svg",
-        titulo: "Sucessões",
-        descricao: "Direito das Sucessões é o ramo do Direito Civil que regula a transmissão do patrimônio de uma pessoa falecida aos seus sucessores, seja por lei ou por testamento.",
+        icone: "icon-divorcio.svg",
+        titulo: "Divórcio",
+        descricao: "Condução de processos de divórcio consensual ou litigioso, com mediação de acordos e resguardo dos direitos patrimoniais e familiares.",
+      },
+      {
+        icone: "icon-paternidade.svg",
+        titulo: "Reconhecimento de Paternidade",
+        descricao: "Medidas judiciais para investigação e reconhecimento de paternidade, incluindo exame de DNA e regularização da filiação e seus efeitos jurídicos.",
+      },
+      {
+        icone: "icon-honra.svg",
+        titulo: "Danos Morais e Proteção da Honra",
+        descricao: "Atuação em casos de ofensas, calúnia, difamação, injúria e exposição indevida de imagem, vídeos ou dados pessoais, buscando reparação pelos danos causados à honra e à reputação.",
+      },
+      {
+        icone: "icon-consumidor.svg",
+        titulo: "Direito do Consumidor e Cobranças Indevidas",
+        descricao: "Contestação de negativações indevidas (SPC/Serasa) e cobranças de dívidas inexistentes ou já pagas, além de recuperação de prejuízos causados por fraudes, golpes e danos materiais.",
+      },
+      {
+        icone: "icon-protetiva.svg",
+        titulo: "Medida Protetiva",
+        descricao: "Solicitação de proteção judicial em situações de ameaça, agressão, perseguição ou violência psicológica, com orientação sobre provas e boletim de ocorrência.",
       },
     ],
   },
