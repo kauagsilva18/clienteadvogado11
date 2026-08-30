@@ -1,7 +1,15 @@
 {
   "name": "projeto1",
   "version": "1.0.0",
-  "description": "",
+  "description": "Site de portfólio para um advogado, com tema claro/escuro e design formal.",
+  "homepage": "https://github.com/kauagsilva18/clienteadvogado11#readme",
+  "bugs": {
+    "url": "https://github.com/kauagsilva18/clienteadvogado11/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kauagsilva18/clienteadvogado11.git"
+  },
   "license": "ISC",
   "author": "",
   "type": "commonjs",
@@ -11,7 +19,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "ejs": "^6.0.1",
+    "ejs": "^3.1.10",
     "express": "^5.2.1"
-  }
+  },
+  "devDependencies": {}
 }
