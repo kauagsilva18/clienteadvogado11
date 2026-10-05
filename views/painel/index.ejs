@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="claro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel | <%= conteudo.site.logo %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/painel.css">
+</head>
+<body class="painel">
+<%
+  // Campo de texto (input ou textarea) de uma seção
+  function campo(secao, chave, rotulo, extra) {
+    extra = extra || {};
+    const valor = conteudo[secao][chave];
+    const max = limites[secao][chave];
+%>
+    <label class="campo<%= extra.largo ? ' campo-largo' : '' %>">
+      <span class="campo-rotulo"><%= rotulo %></span>
+      <% if (extra.linhas) { %>
+        <textarea data-chave="<%= chave %>" rows="<%= extra.linhas %>" maxlength="<%= max %>"><%= valor %></textarea>
+      <% } else { %>
+        <input type="text" data-chave="<%= chave %>" value="<%= valor %>" maxlength="<%= max %>">
+      <% } %>
+      <% if (extra.dica) { %><span class="campo-dica"><%= extra.dica %></span><% } %>
+    </label>
+<% }
+
+  // Rodapé de cada formulário, com o botão Salvar
+  function rodapeSecao() { %>
+    <div class="painel-secao-rodape">
+      <span class="status" aria-live="polite"></span>
+      <button type="submit" class="btn btn-primary" data-requer-banco <%= online ? '' : 'disabled' %>>Salvar</button>
+    </div>
+<% }
+
+  // Card de serviço editável
+  function cardServico(servico, grupo) { %>
+    <li class="card-servico">
+      <div class="card-servico-topo">
+        <span class="card-servico-num"></span>
+        <div class="card-servico-acoes">
+          <button type="button" class="btn-icone" data-acao="subir" aria-label="Mover para cima" title="Mover para cima">↑</button>
+          <button type="button" class="btn-icone" data-acao="descer" aria-label="Mover para baixo" title="Mover para baixo">↓</button>
+          <button type="button" class="btn-icone btn-icone-perigo" data-acao="remover" aria-label="Remover card" title="Remover card">✕</button>
+        </div>
+      </div>
+      <fieldset class="seletor-icone">
+        <legend class="campo-rotulo">Ícone</legend>
+        <div class="seletor-icone-opcoes">
+          <% icones.forEach(function (icone) { %>
+            <label class="opcao-icone" title="<%= icone.nome %>">
+              <input type="radio" name="<%= grupo %>" value="<%= icone.id %>" <%= servico.icone === icone.id ? 'checked' : '' %>>
+              <span class="opcao-icone-visual" aria-hidden="true"><%- include('../partials/icone', { icone: icone.id }) %></span>
+              <span class="sr-only"><%= icone.nome %></span>
+            </label>
+          <% }) %>
+        </div>
+      </fieldset>
+      <label class="campo">
+        <span class="campo-rotulo">Título</span>
+        <input type="text" data-card="titulo" value="<%= servico.titulo %>" maxlength="120" required>
+      </label>
+      <label class="campo">
+        <span class="campo-rotulo">Descrição</span>
+        <textarea data-card="descricao" rows="3" maxlength="1000"><%= servico.descricao %></textarea>
+      </label>
+    </li>
+<% } %>
+
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <span class="brand">Painel<span class="brand-extra"> Administrativo</span></span>
+      <div class="navbar-actions">
+        <a href="/" class="btn-topo" target="_blank" rel="noopener">Ver site ↗</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+          <span class="icon-sun">☀</span>
+          <span class="icon-moon">☾</span>
+        </button>
+        <form method="post" action="/painel/sair">
+          <button type="submit" class="btn-topo">Sair</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <div class="aviso-banco" id="avisoBanco" role="alert" <%= online ? 'hidden' : '' %>>
+    Banco de dados indisponível — o site está exibindo o conteúdo padrão e as alterações não serão salvas.
+  </div>
+
+  <div class="container painel-layout">
+    <nav class="painel-menu" aria-label="Seções do painel">
+      <a href="#secao-site">Identidade</a>
+      <a href="#secao-navegacao">Menu</a>
+      <a href="#secao-perfil">Apresentação</a>
+      <a href="#secao-sobre">Sobre</a>
+      <a href="#secao-servicos">Serviços</a>
+      <a href="#secao-horarios">Horários</a>
+      <a href="#secao-contato">Contato</a>
+      <a href="#secao-rodape">Rodapé</a>
+      <a href="#secao-senha">Senha</a>
+    </nav>
+
+    <main class="painel-conteudo">
+      <% if (modo === 'arquivo') { %>
+        <p class="alerta alerta-info">Modo de desenvolvimento: os dados estão sendo salvos na pasta <code>data/</code>. Em produção, configure <code>MONGODB_URI</code>.</p>
+      <% } %>
+
+      <!-- Identidade -->
+      <section class="painel-secao" id="secao-site">
+        <div class="painel-secao-topo">
+          <h2>Identidade do site</h2>
+          <p>Nome exibido no logo, no rodapé e na aba do navegador.</p>
+        </div>
+        <form class="painel-form" data-secao="site">
+          <div class="campos">
+            <% campo('site', 'logo', 'Logo / nome do escritório') %>
+            <% campo('site', 'titulo', 'Título da aba do navegador') %>
+          </div>
+          <% rodapeSecao() %>
+        </form>
+      </section>
+
+      <!-- Navegação -->
+      <section class="painel-secao" id="secao-navegacao">
+        <div class="painel-secao-topo">
+          <h2>Menu de navegação</h2>
+          <p>Textos dos links do topo e do rodapé.</p>
+        </div>
+        <form class="painel-form" data-secao="navegacao">
+          <div class="campos">
+            <% campo('navegacao', 'inicio', 'Início') %>
+            <% campo('navegacao', 'sobre', 'Sobre') %>
+            <% campo('navegacao', 'servicos', 'Serviços') %>
+            <% campo('navegacao', 'horarios', 'Horários') %>
+            <% campo('navegacao', 'contato', 'Contato') %>
+          </div>
+          <% rodapeSecao() %>
+        </form>
+      </section>
+
+      <!-- Perfil -->
+      <section class="painel-secao" id="secao-perfil">
+        <div class="painel-secao-topo">
+          <h2>Apresentação</h2>
+          <p>Foto e textos da parte principal, no topo do site.</p>
+        </div>
+
+        <div class="foto-editor">
+          <div class="foto-previa">
+            <img id="fotoPrevia" src="<%= conteudo.perfil.foto %>" alt="Foto de perfil" <%= conteudo.perfil.foto ? '' : 'hidden' %>>
+            <div class="photo-placeholder" id="fotoPlaceholder" <%= conteudo.perfil.foto ? 'hidden' : '' %>>
+              <span class="scales">⚖</span>
+              <span class="placeholder-text">Sem foto</span>
+            </div>
+          </div>
+          <div class="foto-acoes">
+            <p class="campo-rotulo">Foto de perfil</p>
+            <p class="campo-dica">JPG, PNG ou WebP, com no máximo 2 MB.</p>
+            <div class="foto-botoes">
+              <label class="btn btn-secundario" id="fotoEscolher">
+                Escolher imagem
+                <input type="file" id="fotoArquivo" accept="image/jpeg,image/png,image/webp" class="sr-only">
+              </label>
+              <button type="button" class="btn btn-primary" id="fotoSalvar" data-requer-banco hidden <%= online ? '' : 'disabled' %>>Salvar foto</button>
+              <button type="button" class="btn btn-secundario" id="fotoCancelar" hidden>Cancelar</button>
+              <button type="button" class="btn btn-perigo" id="fotoRemover" data-requer-banco <%= conteudo.perfil.foto ? '' : 'hidden' %> <%= online ? '' : 'disabled' %>>Remover foto</button>
+            </div>
+            <span class="status" id="fotoStatus" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <form class="painel-form" data-secao="perfil">
+          <div class="campos">
+            <% campo('perfil', 'nome', 'Nome completo') %>
+            <% campo('perfil', 'titulo', 'Cargo / OAB') %>
+            <% campo('perfil', 'eyebrow', 'Texto acima do nome') %>
+            <% campo('perfil', 'tagline', 'Frase de apresentação', { linhas: 2, largo: true, dica: 'Também aparece no rodapé.' }) %>
+            <% campo('perfil', 'botaoServicos', 'Botão "Serviços"') %>
+            <% campo('perfil', 'botaoContato', 'Botão "Contato"') %>
+          </div>
+          <% rodapeSecao() %>
+        </form>
+      </section>
+
+      <!-- Sobre -->
+      <section class="painel-secao" id="secao-sobre">
+        <div class="painel-secao-topo">
+          <h2>Sobre / Biografia</h2>
+        </div>
+        <form class="painel-form" data-secao="sobre">
+          <div class="campos">
+            <% campo('sobre', 'eyebrow', 'Texto acima do título') %>
+            <% campo('sobre', 'titulo', 'Título da seção') %>
+            <% campo('sobre', 'biografia', 'Biografia', { linhas: 9, largo: true, dica: 'Quebras de linha são mantidas no site.' }) %>
+          </div>
+          <% rodapeSecao() %>
+        </form>
+      </section>
+
+      <!-- Serviços -->
+      <section class="painel-secao" id="secao-servicos">
+        <div class="painel-secao-topo">
+          <h2>Serviços</h2>
+          <p>Adicione, edite, remova e reordene os cards de trabalho.</p>
+        </div>
+        <form class="painel-form" data-secao="servicos">
+          <div class="campos">
+            <% campo('servicos', 'eyebrow', 'Texto acima do título') %>
+            <% campo('servicos', 'titulo', 'Título da seção') %>
+          </div>
+          <ol class="lista-servicos" id="listaServicos">
+            <% conteudo.servicos.lista.forEach(function (servico, i) { cardServico(servico, 'icone-' + i); }) %>
+          </ol>
+          <button type="button" class="btn btn-secundario btn-adicionar" id="adicionarServico">+ Adicionar card</button>
+          <% rodapeSecao() %>
+        </form>
+        <template id="modeloServico">
+          <% cardServico({ icone: 'icon-justica.svg', titulo: '', descricao: '' }, 'icone-modelo') %>
+        </template>
+      </section>
+
+      <!-- Horários -->
+      <section class="painel-secao" id="secao-horarios">
+        <div class="painel-secao-topo">
+          <h2>Horários de atendimento</h2>
+        </div>
+        <form class="painel-form" data-secao="horarios">
+          <div class="campos">
+            <% campo('horarios', 'eyebrow', 'Texto acima do título') %>
+            <% campo('horarios', 'titulo', 'Título da seção') %>
+          </div>
+          <div class="lista-horarios">
+            <% conteudo.horarios.lista.forEach(function (item) { %>
+              <label class="linha-horario">
+                <span class="linha-horario-dia"><%= item.dia %></span>
+                <input type="text" data-horario value="<%= item.horario %>" maxlength="60" placeholder="ex.: 13:00 às 17:30h ou Fechado">
+              </label>
+            <% }) %>
+          </div>
+          <div class="campos">
+            <% campo('horarios', 'nota', 'Frase abaixo dos horários', { linhas: 2, largo: true }) %>
+            <% campo('horarios', 'botaoWhatsapp', 'Texto do botão do WhatsApp') %>
+          </div>
+          <% rodapeSecao() %>
+        </form>
+      </section>
+
+      <!-- Contato -->
+      <section class="painel-secao" id="secao-contato">
+        <div class="painel-secao-topo">
+          <h2>Contato e redes sociais</h2>
+        </div>
+        <form class="painel-form" data-secao="contato">
+          <div class="campos">
+            <label class="campo">
+              <span class="campo-rotulo">WhatsApp</span>
+              <input type="tel" data-chave="whatsapp" value="<%= conteudo.contato.whatsapp %>" maxlength="20" placeholder="51 99999-9999">
+              <span class="campo-dica">Com DDD. O código do Brasil (55) é adicionado automaticamente.</span>
+              <span class="campo-dica">Link: <a href="<%= links.whatsapp %>" target="_blank" rel="noopener" data-link="whatsapp"><%= links.whatsapp %></a></span>
+            </label>
+            <label class="campo">
+              <span class="campo-rotulo">Instagram</span>
+              <span class="campo-prefixo">
+                <span aria-hidden="true">@</span>
+                <input type="text" data-chave="instagram" value="<%= conteudo.contato.instagram %>" maxlength="60" placeholder="seu.perfil">
+              </span>
+              <span class="campo-dica">Link: <a href="<%= links.instagram %>" target="_blank" rel="noopener" data-link="instagram"><%= links.instagram %></a></span>
+            </label>
+          </div>
+          <% rodapeSecao() %>
+        </form>
+      </section>
+
+      <!-- Rodapé -->
+      <section class="painel-secao" id="secao-rodape">
+        <div class="painel-secao-topo">
+          <h2>Rodapé</h2>
+        </div>
+        <form class="painel-form" data-secao="rodape">
+          <div class="campos">
+            <% campo('rodape', 'tituloNavegacao', 'Título da coluna de navegação') %>
+            <% campo('rodape', 'tituloContato', 'Título da coluna de contato') %>
+            <% campo('rodape', 'direitos', 'Texto de direitos autorais', { largo: true }) %>
+          </div>
+          <% rodapeSecao() %>
+        </form>
+      </section>
+
+      <!-- Senha -->
+      <section class="painel-secao" id="secao-senha">
+        <div class="painel-secao-topo">
+          <h2>Senha do painel</h2>
+          <p>Ao trocar a senha, outras sessões abertas são desconectadas.</p>
+        </div>
+        <form class="painel-form" id="formSenha">
+          <div class="campos">
+            <label class="campo campo-largo">
+              <span class="campo-rotulo">Senha atual</span>
+              <input type="password" name="atual" autocomplete="current-password" required>
+            </label>
+            <label class="campo">
+              <span class="campo-rotulo">Nova senha</span>
+              <input type="password" name="nova" autocomplete="new-password" minlength="6" required>
+              <span class="campo-dica">Mínimo de 6 caracteres.</span>
+            </label>
+            <label class="campo">
+              <span class="campo-rotulo">Confirmar nova senha</span>
+              <input type="password" name="confirmacao" autocomplete="new-password" minlength="6" required>
+            </label>
+          </div>
+          <div class="painel-secao-rodape">
+            <span class="status" aria-live="polite"></span>
+            <button type="submit" class="btn btn-primary" data-requer-banco <%= online ? '' : 'disabled' %>>Trocar senha</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/painel.js"></script>
+</body>
+</html>

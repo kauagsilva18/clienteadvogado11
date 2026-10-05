@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="claro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel | Acesso</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/painel.css">
+</head>
+<body class="painel-login">
+  <div class="hero-bg"></div>
+
+  <button class="theme-toggle login-theme" id="themeToggle" aria-label="Alternar tema">
+    <span class="icon-sun">☀</span>
+    <span class="icon-moon">☾</span>
+  </button>
+
+  <main class="login-card">
+    <span class="login-icon" aria-hidden="true">⚖</span>
+    <p class="section-eyebrow">Área restrita</p>
+    <h1 class="login-title">Painel Administrativo</h1>
+
+    <% if (!senhaConfigurada) { %>
+      <p class="alerta alerta-erro">Nenhuma senha configurada. Defina a variável de ambiente <code>ADMIN_PASSWORD</code> e reinicie o servidor.</p>
+    <% } else { %>
+      <% if (erro) { %>
+        <p class="alerta alerta-erro" role="alert"><%= erro %></p>
+      <% } %>
+      <form method="post" action="/painel/login" class="login-form">
+        <label class="campo">
+          <span class="campo-rotulo">Senha</span>
+          <input type="password" name="senha" autocomplete="current-password" required autofocus>
+        </label>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+      </form>
+    <% } %>
+  </main>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

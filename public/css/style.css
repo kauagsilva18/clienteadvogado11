@@ -439,6 +439,8 @@ img {
 .about .section-text {
   margin: 0 auto;
   text-align: center;
+  /* mantém as quebras de linha digitadas no painel */
+  white-space: pre-line;
 }
 
 /* ---------- Serviços ---------- */

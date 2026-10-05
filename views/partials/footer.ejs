@@ -7,27 +7,27 @@
         </div>
 
         <div class="footer-links">
-          <h4>Navegação</h4>
-          <a href="#inicio">Início</a>
-          <a href="#sobre">Sobre</a>
-          <a href="#servicos">Serviços</a>
-          <a href="#horarios">Horários</a>
+          <h4><%= config.rodape.tituloNavegacao %></h4>
+          <a href="#inicio"><%= config.navegacao.inicio %></a>
+          <a href="#sobre"><%= config.navegacao.sobre %></a>
+          <a href="#servicos"><%= config.navegacao.servicos %></a>
+          <a href="#horarios"><%= config.navegacao.horarios %></a>
         </div>
 
         <div class="footer-contact">
-          <h4>Contato</h4>
+          <h4><%= config.rodape.tituloContato %></h4>
           <div class="social-buttons">
-            <a href="<%= config.contato.whatsapp %>" class="btn-social whatsapp" target="_blank" rel="noopener">
+            <a href="<%= links.whatsapp %>" class="btn-social whatsapp" target="_blank" rel="noopener">
               <img src="/images/whatsapp.svg" alt="WhatsApp" class="social-icon"> WhatsApp
             </a>
-            <a href="<%= config.contato.instagram %>" class="btn-social instagram" target="_blank" rel="noopener">
+            <a href="<%= links.instagram %>" class="btn-social instagram" target="_blank" rel="noopener">
               <img src="/images/instagram.svg" alt="Instagram" class="social-icon"> Instagram
             </a>
           </div>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; <%= new Date().getFullYear() %> <%= config.site.logo %>. Todos os direitos reservados.</p>
+        <p>&copy; <%= new Date().getFullYear() %> <%= config.site.logo %>. <%= config.rodape.direitos %></p>
       </div>
     </div>
   </footer>
