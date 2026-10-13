@@ -11,6 +11,40 @@ const PORT = process.env.PORT || 3000;
 app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.disable('x-powered-by');
+
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self'",
+  "img-src 'self' blob:", // blob: = prévia da foto no painel
+  "connect-src 'self'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+].join('; ');
+
+const HOSTS_LOCAIS = new Set(['localhost', '127.0.0.1', '::1', '[::1]']);
+
+// Força HTTPS fora do ambiente local (/health fica de fora para os testes da plataforma)
+app.use((req, res, next) => {
+  if (req.secure || HOSTS_LOCAIS.has(req.hostname) || req.path === '/health') return next();
+  res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+});
+
+app.use((req, res, next) => {
+  res.set({
+    'Content-Security-Policy': CSP,
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+    'Cross-Origin-Opener-Policy': 'same-origin',
+  });
+  if (req.secure) res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  next();
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 
